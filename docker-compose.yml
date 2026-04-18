@@ -1,0 +1,50 @@
+services:
+  web-server:
+    build:
+      context: ./apps/backend
+      dockerfile: dev.dockerfile
+    volumes:
+      - ./apps/backend:/usr/src/backend
+      - cargo_target:/usr/src/backend/target
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - db
+  redis:
+    build:
+      context: ./apps/redis
+      dockerfile: Dockerfile
+    volumes:
+      - redis_data:/data
+    restart: always
+    ports:
+      - "6379:6379"
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql
+    ports:
+      - "5433:5432"
+  # web:
+  #   build:
+  #     context: ./apps/web
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     - RUST_LOG=debug
+  #   volumes:
+  #     - ./apps/web:/app
+  #   working_dir: /app
+  #   command: pnpm dev:web
+  #   depends_on:
+  #     - web-server
+
+volumes:
+  cargo_target:
+  redis_data:
+  pgdata:

@@ -1,0 +1,14 @@
+[workspace]
+members = [
+  # -- Application Services
+  "crates/services/web-server"
+]
+resolver = "2"
+
+[workspace.dependencies]
+axum = { version = "0.8.9" }
+sqlx = { version = "0.8", features = [ "runtime-tokio", "tls-native-tls" ] }
+tokio = { version = "1.52.1", features = ["full"] }
+tower-http = "0.6.8"
+serde = "1.0.228"
+rust_decimal = { version = "1.41.0", features = ["macros"] }
