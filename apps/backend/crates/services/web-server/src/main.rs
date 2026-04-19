@@ -1,19 +1,22 @@
 
-use axum::{response::Html, routing::get, Router};
+use axum::{Router};
+
+pub use self::error::{Error, Result};
+
+mod error;
+mod web;
 
 #[tokio::main]
-async fn main() {
-    // build our application with a route
-    let app = Router::new().route("/", get(handler));
+async fn main() -> Result<()> {
+    let app = Router::new()
+        .merge(web::routes::routes());
 
-    // run it
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
         .await
         .unwrap();
-    println!("listening on {}", listener.local_addr().unwrap());
-    let _ = axum::serve(listener, app).await;
-}
 
-async fn handler() -> Html<&'static str> {
-    Html("<h1>Hello, World!</h1>")
+    println!("listening on {}", listener.local_addr().unwrap());
+    axum::serve(listener, app).await.unwrap();
+
+    Ok(())
 }
