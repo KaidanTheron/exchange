@@ -1,8 +1,10 @@
 A price-time priority matching engine in Rust, with real-time WebSocket streaming and a React trading interface.
 (or... it will be, soon)
 
-There are some tradeoffs with my approach for this project to keep it free. I will have to keep the redis and postgres usage low so that I can stay in the free tiers.
-This means, unfortunately, that this won't be the most performant, blazingly fast system you have ever seen.
+Notes:
+- There are some tradeoffs with my approach for this project to keep it free. I will have to keep the redis and postgres usage low so that I can stay in the free tiers. This means, unfortunately, that this won't be the most performant, blazingly fast system you have ever seen.
+- This project will only work with the currency pair BTC/ZAR. This is for the sake of simplicity and local relevance
+- I use rust_decimal to be as accurate as possible
 
 ### Development Requirements
 
